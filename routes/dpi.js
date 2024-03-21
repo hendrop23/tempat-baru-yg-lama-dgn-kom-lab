@@ -2,7 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Model_DPI = require('../model/model_dpi');
 
-router.get('/', async function(req, res, next) {
+function requireLogin(req, res, next) {
+    if (req.session && req.session.userId) {
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
+router.get('/', requireLogin, async function(req, res, next) {
     try {
         let rows = await Model_DPI.getAll();
         res.render('dpi/index', {

@@ -2,6 +2,26 @@ const express = require('express');
 const router = express.Router();
 const Model_Kategori = require('../model/Model_kategori');
 
+function requireLogin(req, res, next) {
+    if (req.session && req.session.userId) {
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
+// Terapkan middleware requireLogin pada setiap route yang ingin Anda proteksi
+router.get('/', requireLogin, async function(req, res, next) {
+    try {
+        let rows = await Model_AlatTangkap.getAll();
+        res.render('alat_tangkap/index', {
+            data: rows
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/', async function(req, res, next) {
     let rows = await Model_Kategori.getAll();
     res.render('kategori/index',{

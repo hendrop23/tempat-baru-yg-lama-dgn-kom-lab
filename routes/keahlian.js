@@ -3,6 +3,26 @@ const router = express.Router();
 const ModelKeahlian = require("../model/model_keahlian.js");
 const ModelMahasiswa = require("../model/model_mahasiswa.js");
 
+function requireLogin(req, res, next) {
+  if (req.session && req.session.userId) {
+      return next();
+  } else {
+      res.redirect('/login');
+  }
+}
+
+// Terapkan middleware requireLogin pada setiap route yang ingin Anda proteksi
+router.get('/', requireLogin, async function(req, res, next) {
+  try {
+      let rows = await Model_AlatTangkap.getAll();
+      res.render('alat_tangkap/index', {
+          data: rows
+      });
+  } catch (error) {
+      next(error);
+  }
+});
+
 // Rute untuk menampilkan semua keahlian
 router.get("/", async function (req, res, next) {
   try {

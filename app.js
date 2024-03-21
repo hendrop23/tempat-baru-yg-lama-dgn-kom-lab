@@ -39,12 +39,11 @@ app.use(session({
       maxAge: 60000000000,
       secure: false,
       httpOnly: true,
-      sameSite: 'strict',
-      // domain: 'domainkkitananti.com',
+      samesite:'strict',
   },
   store: new MemoryStore(),
   saveUninitialized: true,
-  resave: false,
+  resave: true,
   secret: 'secret'
 }));
 

@@ -36,33 +36,30 @@ router.post('/saveusers', async (req, res) => {
   }
 });
 
-
 router.post('/log', async (req, res) => {
-  try {
-      let { email, password } = req.body;
-      let userData = await Model_Users.login(email);
-      
-      if (userData.length > 0) {
-          let hashedPassword = userData[0].password;
-          let passwordMatch = await bcrypt.compare(password, hashedPassword);
-          
-          if (passwordMatch) {
-              req.session.userId = userData[0].id_users;
-              req.flash('success', 'Berhasil login');
-              res.redirect('/kapal');
-          } else {
-              req.flash('error', 'Email atau password salah');
-              res.redirect('/login');
-          }
-      } else {
-          req.flash('error', 'Akun tidak ditemukan');
-          res.redirect('/login');
-      }
-  } catch (err) {
-      console.error(err);
-      req.flash('error', 'Terjadi kesalahan saat login');
-      res.redirect('/login');
-  }
+    let { email, password } = req.body;
+    try {
+        let Data = await Model_Users.login(email);
+        if (Data.length > 0) {
+            let enkripsi = Data[0].password;
+            let cek = await bcrypt.compare(password, enkripsi);
+            if (cek) {
+                req.session.userId = Data[0].id_users;
+                req.flash('success', 'Berhasil login');
+                res.redirect('/kapal');
+            } else {
+                req.flash('error', 'Email atau password salah');
+                res.redirect('/login');
+            }
+        } else {
+            req.flash('error', 'Akun tidak ditemukan');
+            res.redirect('/login');
+        }
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Error pada fungsi');
+        res.redirect('/login');
+    }
 });
 
 router.get('/logout', function(req, res) {
