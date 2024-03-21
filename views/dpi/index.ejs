@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar DPI</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">DATA DPI</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Daftar DPI</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../pemilik">Pemilik</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../alat_tangkap">Alat Tangkap</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../kapal">Kapal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-lg">
+        <!-- Mengubah kelas container menjadi container-lg -->
+        <% if (messages.success) { %>
+            <div class="alert alert-info" role="alert">
+                <%= messages.success %>
+            </div>
+        <% } %>
+        <div class="row">
+            <div class="col"><br><br>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Daftar DPI
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nama DPI</th>
+                                        <th scope="col">Luas</th>
+                                        <th scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% var count = 1; %>
+                                    <% for(var i = 0; i < data.length; i++) { %>
+                                        <tr>
+                                            <th scope="row"><%= count %></th>
+                                            <% count++; %>
+                                            <td><%= data[i].nama_dpi %></td>
+                                            <td><%= data[i].luas %></td>
+                                            <td>
+                                                <a href="/dpi/edit/<%= data[i].id_dpi %>" class="btn btn-sm btn-warning mr-2">Edit</a>
+                                                <a href="/dpi/delete/<%= data[i].id_dpi %>" class="btn btn-sm btn-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <form action="/dpi/store" method="POST">
+                            <div class="form-group">
+                                <label for="nama_dpi">Nama DPI</label>
+                                <input type="text" class="form-control" name="nama_dpi" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="luas">Luas</label>
+                                <input type="text" class="form-control" name="luas" required>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br><br><br><br>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

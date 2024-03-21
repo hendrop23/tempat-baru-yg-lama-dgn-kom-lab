@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Kapal</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">DATA Kapal</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Daftar Kapal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../pemilik">Pemilik</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../alat_tangkap">Alat Tangkap</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../dpi">DPi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>          
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <% if (messages.success) { %>
+        <div class="alert alert-info" role="alert">
+            <%= messages.success %>
+        </div>
+        <% } %>
+        <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= messages.error %>
+        </div>
+        <% } %>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Daftar Kapal
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nama Kapal</th>
+                                    <th scope="col">Pemilik</th>
+                                    <th scope="col">DPI</th>
+                                    <th scope="col">Alat Tangkap</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.forEach(function(kapal, index) { %>
+                                <tr>
+                                    <th scope="row"><%= index + 1 %></th>
+                                    <td><%= kapal.nama_kapal %></td>
+                                    <td><%= kapal.nama_pemilik %></td>
+                                    <td><%= kapal.nama_dpi %></td>
+                                    <td><%= kapal.nama_alat_tangkap %></td>
+                                    <td>
+                                        <a href="/kapal/edit/<%= kapal.id_kapal %>"
+                                            class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="/kapal/delete/<%= kapal.id_kapal %>"
+                                            class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="container">
+                    <h2>Tambah Kapal</h2>
+                    <form action="/kapal/store" method="POST">
+                        <div class="mb-3">
+                            <label for="nama_kapal" class="form-label">Nama Kapal</label>
+                            <input type="text" class="form-control" name="nama_kapal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_pemilik" class="form-label">Pemilik</label>
+                            <select class="form-select" name="id_pemilik" required>
+                                <% pemilik.forEach(function(pemilik) { %>
+                                <option value="<%= pemilik.id_pemilik %>"><%= pemilik.nama_pemilik %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_dpi" class="form-label">DPI</label>
+                            <select class="form-select" name="id_dpi" required>
+                                <% dpi.forEach(function(dpi) { %>
+                                <option value="<%= dpi.id_dpi %>"><%= dpi.nama_dpi %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_alat_tangkap" class="form-label">Alat Tangkap</label>
+                            <select class="form-select" name="id_alat_tangkap" required>
+                                <% alatTangkap.forEach(function(alat) { %>
+                                <option value="<%= alat.id_alat_tangkap %>"><%= alat.nama_alat_tangkap %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
